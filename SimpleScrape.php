@@ -2,7 +2,7 @@
 
 //
 
-namespace nickrod\openconsult\tools;
+namespace nickrod\simplescrape;
 
 //
 
@@ -56,12 +56,12 @@ class SimpleScrape
 
   // use curl to download the page
 
-	private function getPage()
+  private function getPage()
   {
     curl_setopt_array($this->curl, $this->curl_options);
     $this->page = curl_exec($this->curl);
     curl_close($this->curl);
-	}
+  }
 
   // load the page into domdocument, remove errors
 
