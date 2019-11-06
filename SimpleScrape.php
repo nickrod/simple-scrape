@@ -10,7 +10,7 @@ class SimpleScrape
 {
   // page object
 
-  private $page;
+  private $page = '';
 
   // curl object
 
@@ -18,7 +18,7 @@ class SimpleScrape
 
   // curl options
 
-  private $curloptions = [];
+  private $curl_options;
 
   // dom document
 
@@ -34,13 +34,20 @@ class SimpleScrape
 
   // constructor
 
-  public function __construct($curl_options = [])
+  public function __construct($curl_options = [], $utf8 = false)
   {
     // check for curl options
 
     if (is_array($curl_options))
     {
       $this->curl_options = $curl_options;
+    }
+
+    // check for utf8
+
+    if ($utf8)
+    {
+      $this->page = '<?xml encoding="utf-8" ?>';
     }
 
     // initialize objects
@@ -59,7 +66,7 @@ class SimpleScrape
   private function getPage()
   {
     curl_setopt_array($this->curl, $this->curl_options);
-    $this->page = curl_exec($this->curl);
+    $this->page .= curl_exec($this->curl);
     curl_close($this->curl);
   }
 
