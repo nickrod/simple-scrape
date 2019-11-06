@@ -72,7 +72,7 @@ class SimpleScrape
 
   // load the page into domdocument, remove errors
 
-	private function loadPage()
+  private function loadPage()
   {
     if (!empty($this->page))
     {
@@ -81,11 +81,11 @@ class SimpleScrape
       libxml_clear_errors();
       $this->xpath = new \DOMXPath($this->document);
     }
-	}
+  }
 
   // load the page into domdocument
 
-	private function load()
+  private function load()
   {
     $this->getPage();
     $this->loadPage();
@@ -93,14 +93,14 @@ class SimpleScrape
 
   // set the query
 
-	public function setQuery($query)
+  public function setQuery($query)
   {
     $this->query = $query;
-	}
+  }
 
   // parse page based on specified patterns
 
-	public function parsePage($evaluate = false)
+  public function parsePage($evaluate = false)
   {
     if (!empty($this->xpath) && !empty($this->query))
     {
