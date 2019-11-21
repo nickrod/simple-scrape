@@ -1,0 +1,22 @@
+{
+    "name": "nickrod/simplescrape",
+    "description": "Simple web scraping library",
+    "keywords": ["scrape", "scraping", "web scraper", "html parser"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nickrod",
+            "email": "nickrod@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0"
+    },
+    "autoload": {
+        "psr-4": { "simplescrape\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "simplescrape\\tests\\": "tests/" }
+    }
+}
