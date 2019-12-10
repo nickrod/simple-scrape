@@ -2,6 +2,10 @@
 
 //
 
+declare(strict_types=1);
+
+//
+
 namespace simplescrape;
 
 //
@@ -38,18 +42,18 @@ class SimpleScrape
 
   // constructor
 
-  public function __construct($options = [])
+  public function __construct(array $options = [])
   {
     // set curl options
 
-    if (!empty($options['curl_options']))
+    if (isset($options['curl_options']))
     {
       $this->setCurlOptions($options['curl_options']);
     }
 
     // set query
 
-    if (!empty($options['query']))
+    if (isset($options['query']))
     {
       $this->setQuery($options['query']);
     }
@@ -68,7 +72,7 @@ class SimpleScrape
 
   // use curl to download the page
 
-  private function getPage()
+  private function getPage(): void
   {
     $this->curl = curl_init();
     curl_setopt_array($this->curl, $this->curl_options);
@@ -78,7 +82,7 @@ class SimpleScrape
 
   // load the page into domdocument, remove errors
 
-  private function loadPage()
+  private function loadPage(): void
   {
     libxml_use_internal_errors(true);
     $this->document->loadHTML($this->page);
@@ -108,9 +112,9 @@ class SimpleScrape
 
   // get and load the page into dom document
 
-  public function load()
+  public function load(): void
   {
-    if (empty($this->curl_options))
+    if (!isset($this->curl_options))
     {
       throw new \InvalidArgumentException("'curl_options' has not been set");
     }
@@ -123,7 +127,7 @@ class SimpleScrape
 
   //
 
-  private function init()
+  private function init(): void
   {
     $this->document = new \DOMDocument();
     $this->document->preserveWhiteSpace = false;
@@ -131,75 +135,43 @@ class SimpleScrape
 
   // set curl options
 
-  public function setCurlOptions($curl_options)
+  public function setCurlOptions(array $curl_options): void
   {
-    if (!is_array($curl_options))
-    {
-      throw new \InvalidArgumentException("'curl_options' must be an array");
-    }
-    else
-    {
-      $this->curl_options = $curl_options;
-    }
+    $this->curl_options = $curl_options;
   }
 
   // set utf8
 
-  public function setUtf8($utf8)
+  public function setUtf8(bool $utf8): void
   {
-    if (!is_bool($utf8))
+    if ($utf8)
     {
-      throw new \InvalidArgumentException("'utf8' must be a boolean");
+      $this->page = "<" . "?xml encoding='utf-8' ?" . ">";
     }
-    else
-    {
-      if ($utf8)
-      {
-        $this->page = "<" . "?xml encoding='utf-8' ?" . ">";
-      }
 
-      //
+    //
 
-      $this->utf8 = $utf8;
-    }
+    $this->utf8 = $utf8;
   }
 
   // set the query
 
-  public function setQuery($query)
+  public function setQuery(string $query): void
   {
-    if (!is_string($query))
-    {
-      throw new \InvalidArgumentException("'query' must be a string");
-    }
-    else
-    {
-      $this->query = $query;
-    }
+    $this->query = $query;
   }
 
   // parse page based on specified patterns
 
-  public function parsePage($evaluate = false)
+  public function parsePage(): \DOMNodeList
   {
-    if (!is_bool($evaluate))
-    {
-      throw new \InvalidArgumentException("'evaluate' must be a boolean");
-    }
-    elseif (empty($this->query))
+    if (!isset($this->query))
     {
       throw new \InvalidArgumentException("'query' has not been set");
     }
     else
     {
-      if (!$evaluate)
-      {
-        return $this->xpath->query($this->query);
-      }
-      else
-      {
-        return $this->xpath->evaluate($this->query);
-      }
+      return $this->xpath->query($this->query);
     }
   }
 }
