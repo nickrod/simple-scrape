@@ -87,26 +87,6 @@ class SimpleScrape
     libxml_use_internal_errors(true);
     $this->document->loadHTML($this->page);
     libxml_clear_errors();
-
-    //
-
-    if ($this->utf8)
-    {
-      foreach ($this->document->childNodes as $item)
-      {
-        if ($item->nodeType == XML_PI_NODE)
-        {
-          $this->document->removeChild($item);
-        }
-      }
-
-      //
-
-      $this->document->encoding = 'utf-8';
-    }
-
-    //
-
     $this->xpath = new \DOMXPath($this->document);
   }
 
@@ -116,7 +96,7 @@ class SimpleScrape
   {
     if (!isset($this->curl_options))
     {
-      throw new \InvalidArgumentException("'curl_options' has not been set");
+      throw new \InvalidArgumentException('curl_options has not been set');
     }
     else
     {
@@ -144,9 +124,9 @@ class SimpleScrape
 
   public function setUtf8(bool $utf8): void
   {
-    if ($utf8)
+    if ($utf8 === true)
     {
-      $this->page = "<" . "?xml encoding='utf-8' ?" . ">";
+      $this->page = '<' . '?xml encoding="utf-8" ?' . '>';
     }
 
     //
@@ -167,7 +147,7 @@ class SimpleScrape
   {
     if (!isset($this->query))
     {
-      throw new \InvalidArgumentException("'query' has not been set");
+      throw new \InvalidArgumentException('query has not been set');
     }
     else
     {
