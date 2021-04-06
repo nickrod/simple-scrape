@@ -94,7 +94,7 @@ class SimpleScrape
 
   public function load(): void
   {
-    if (!isset($this->curl_options))
+    if ($this->curl_options === null)
     {
       throw new \InvalidArgumentException('curl_options has not been set');
     }
@@ -145,7 +145,7 @@ class SimpleScrape
 
   public function parsePage(): \DOMNodeList
   {
-    if (!isset($this->query))
+    if ($this->query === null)
     {
       throw new \InvalidArgumentException('query has not been set');
     }
